@@ -12,6 +12,11 @@ const baseConfig = {
                 test: /\.css$/i,
                 use: ['style-loader', 'css-loader'],
             },
+                // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+            { 
+                test: /\.tsx?$/, 
+                loader: "ts-loader"
+            }
         ],
     },
     resolve: {
