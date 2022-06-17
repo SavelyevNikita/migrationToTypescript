@@ -1,5 +1,3 @@
-import { IArticles, Ires } from "../interface/interface";
-
 class Loader {
     options: {
         [key: string]: string;
@@ -11,7 +9,7 @@ class Loader {
     }
 
     getResp(
-        { endpoint, options = {} }: { endpoint:string, options: {[key: string]: string;} },
+        { endpoint, options = {} }: { endpoint:string, options?: {[key: string]: string;} },
         callback = () => {
             console.error('No callback for GET response');
         }
@@ -19,7 +17,7 @@ class Loader {
         this.load('GET', endpoint, callback, options);
     }
 
-    errorHandler(res: Ires) {
+    errorHandler(res: Response) {
         if (!res.ok) {
             if (res.status === 401 || res.status === 404)
                 console.log(`Sorry, but there is ${res.status} error: ${res.statusText}`);
@@ -40,7 +38,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback, options: { [key: string]: string; }) {
+    load(method: string, endpoint: string, callback: (data?: Response) => void, options: { [key: string]: string; }) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())
